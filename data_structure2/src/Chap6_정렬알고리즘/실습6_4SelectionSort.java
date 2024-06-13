@@ -2,7 +2,7 @@ package Chap6_정렬알고리즘;
 //최소가 되는 min을 select
 import java.util.Random;
 
-//단순 선택 정렬 6.3
+//단순 선택 정렬 6.3 : 남은 정수 중에서 가장 작은 숫자를 선택
 
 import java.util.Scanner;
 
@@ -21,7 +21,7 @@ public class 실습6_4SelectionSort {
          {
         	 count++;
              if (a[j] < a[min]) //가장 작은 것을 선택
-                 min = j;//min이 가장 작은 element를 가짐
+                 min = j;//min이 가장 작은 element를 가짐(min이 가장 작은값은 아니고, 그걸 가리키는 인덱스값을 의미)
          }
          swap(a, i, min); // 아직 정렬되지 않은 부분의 첫 요소와 가장 작은 요소를 교환
      }

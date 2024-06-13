@@ -13,7 +13,7 @@ class 실습6_5InsertionSort {
 	 int count = 0;
      for (int i = 1; i < n; i++) {
          int j;
-         int tmp = a[i];//두번째 값부터 insert할 위치를 찾는다
+         int tmp = a[i];//두번째 값(인덱스 0이 아니라 1부터)부터 insert할 위치를 찾는다
          //선택한 카드의 좌측에 넣을 곳을 찾는다 
          for (j = i; j > 0 && a[j - 1] > tmp; j--) {//a[j-1]을 기준으로 이동
         	 count++;

@@ -1,5 +1,5 @@
 package Chap6_정렬알고리즘;
-//버블 이동 - 교재 208, 그림 6-9
+//버블 이동 - 교재 208, 그림 6-9 (for (int j = n - 1; j > k; j--) 에서 j>k부분 변경됨)
 //last를 사용한 성능 개선 - 코딩 시험에서 성능 개선 요구 조건
 import java.util.Random;
 
@@ -12,7 +12,6 @@ class 실습6_3BubbleSort3 {
  static void swap(int[] a, int idx1, int idx2) {
      int t = a[idx1]; a[idx1] = a[idx2]; a[idx2] = t;
  }
-
  //--- 버블 정렬(버전 3: 스캔 범위를 한정)---//
  static void bubbleSort(int[] a, int n) {
 	 int count = 0;

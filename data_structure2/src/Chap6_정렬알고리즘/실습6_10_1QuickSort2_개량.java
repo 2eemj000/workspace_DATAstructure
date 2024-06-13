@@ -1,7 +1,7 @@
 // 퀵 정렬(비재귀 버전)
 package Chap6_정렬알고리즘;
 //교재 232 실습 6-10을 수정
-import Chap6_Sorting.StackSorting.Stack3;
+import Chap6_정렬알고리즘.StackSorting.Stack3;
 
 //class Point {
 //	private int ix;

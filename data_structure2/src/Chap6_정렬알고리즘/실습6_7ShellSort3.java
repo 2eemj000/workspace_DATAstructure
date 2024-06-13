@@ -4,7 +4,7 @@ package Chap6_정렬알고리즘;
 //비교 횟수 출력한다 
 import java.util.Scanner;
 
-public class 실습6_7_1ShellSort3 {
+public class 실습6_7ShellSort3 {
 
 //--- 셸 정렬 ---//
 	static void shellSort(int[] a, int n) {

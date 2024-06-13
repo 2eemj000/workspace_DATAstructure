@@ -1,6 +1,6 @@
 package Chap6_정렬알고리즘;
 /*
- * 버블 이동 - 교재 202, 그림 6-3, 6-4
+ * 버블 이동 (단순교환 알고리즘)- 교재 202, 그림 6-3, 6-4
  */
 //6장 학습 목표: 코드 가독(판독) 훈련 - 변수 값을 추적: 소스 코드를 따라가면서 
 import java.util.Random;
@@ -17,13 +17,13 @@ class 실습6_1BubbleSort {
 
  //--- 버블 정렬 ---//
  static void bubbleSort(int[] a, int n) {
-	 int count = 0;
-     for (int i = 0; i < n - 1; i++)//패스
-         for (int j = n - 1; j > i; j--)//끝에서 앞쪽으로 이동하면서 버블 처리
+	 int count = 0; //비교횟수 -> 성능(시간복잡도)을 의미함
+     for (int i = 0; i < n - 1; i++)//패스 : 배열의 마지막 요소까지 반복하지 않고, 그 전 요소까지만 반복하여야 하기 때문에 n - 1로 설정
+         for (int j = n - 1; j > i; j--)//끝에서 앞쪽으로 이동하면서 이웃하는 두 요소를 비교하고 교환(버블 처리)
          {
         	 count++;
              if (a[j - 1] > a[j])//버블
-                 swap(a, j - 1, j);
+                 swap(a, j - 1, j); // a배열에서 a[j - 1]와 a[j]의 값을 교환
          }
      System.out.println("\n비교 횟수 = " + count);
  }
