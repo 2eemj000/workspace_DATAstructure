@@ -7,8 +7,10 @@ import java.util.Scanner;
 class 실습6_11MergeArray {
  //--- 정렬을 마친 배열 a, b를 병합하여 배열 c에 저장 ---//
  static void merge(int[] a, int na, int[] b, int nb, int[] c) {
+	 //pa와 pb는 a와 b의 시작 지점을 가리키도록 초기화
      int pa = 0;
      int pb = 0;
+     //pc를 배열 c의 시작 지점으로 초기화
      int pc = 0;
 
      while (pa < na && pb < nb)        // 작은 쪽을 c에 넣어 둠

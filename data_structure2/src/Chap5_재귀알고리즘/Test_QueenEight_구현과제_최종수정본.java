@@ -180,8 +180,8 @@ public class Test_QueenEight_구현과제_최종수정본 { //백트래킹 알�
 		        st.push(new Point(ix, iy)); // 스택에 퀸의 위치 저장
 		        iy++; // 다음 열로 이동
 		        if (iy >= 8) { // 모든 열에 퀸을 배치한 경우
-		        	numberSolutions++; // 해의 수 증가
-		            System.out.println("Solution " + numberSolutions + ":");
+		        	count++;// 해의 수 증가
+		        	numberSolutions++;
 		            showQueens(d); // 퀸의 위치 출력
 		            iy--; // 이전 열로 이동하여 백트래킹 수행
 		        }
@@ -218,15 +218,27 @@ public class Test_QueenEight_구현과제_최종수정본 { //백트래킹 알�
 					return false;
 				x--;y++;
 			}
-
+			return true;
 	    }
 
 		//배열 d에서 행 cx, 열 cy에 퀸을 남동, 북서 대각선으로 배치할 수 있는지 조사
 		public static boolean checkDiagSE(int[][] d, int cx, int cy) {// x++, y++ or x--, y--
-			 for (int i = cx, j = cy; i >= 0 && j >= 0; i--, j--)
-		            if (d[i][j] == 1)
-		                return false;
-		        return true;
+			int x = cx, y = cy;
+		    while (x >= 0 && x < d.length && y >= 0 && y < d.length) {
+		        if (d[x][y] == 1)
+		            return false;
+		        x++;
+		        y++;
+		    }
+		    x = cx;
+		    y = cy;
+		    while (x >= 0 && x < d.length && y >= 0 && y < d.length) {
+		        if (d[x][y] == 1)
+		            return false;
+		        x--;
+		        y--;
+		    }
+		    return true;
 		    }
 		
 		//배열 d에서 (x,y)에 퀸을 배치할 수 있는지  조사(가로,세로,대각선을 모두 확인 - 앞에 함수들을 부름)
@@ -245,13 +257,14 @@ public class Test_QueenEight_구현과제_최종수정본 { //백트래킹 알�
 	        return -1; // 이동할 행이 없는 경우
 	    }
 	
-	static void showQueens(int[][] data) {// 배열 출력
-		for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[0].length; j++)
-                System.out.print(data[i][j] + " ");
-            System.out.println();
-        }
-    }
+		static void showQueens(int[][] data) {
+	        for (int i = 0; i < data.length; i++) {
+	            for (int j = 0; j < data[0].length; j++)
+	                System.out.print(data[i][j] + " ");
+	            System.out.println();
+	        }
+	        System.out.println();
+	    }
 
 	public static void main(String[] args) throws EmptyGenericStackException {
 		int row = 8, col = 8;

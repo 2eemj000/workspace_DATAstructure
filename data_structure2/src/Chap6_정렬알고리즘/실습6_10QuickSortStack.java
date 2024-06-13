@@ -122,8 +122,8 @@ public class 실습6_10QuickSortStack {
          int x = a[(left + right) / 2];        // 피벗은 가운데 요소
          System.out.println("피벗 : "+x);
          do {
-             while (a[pl] < x) pl++;
-             while (a[pr] > x) pr--;
+             while (a[pl] < x) pl++; // 아니면 그대로 그 값을 가리킴
+             while (a[pr] > x) pr--; // 바꿔야하는 자리를 찾을때까지
              if (pl <= pr)
                  swap(a, pl++, pr--);
          } while (pl <= pr);

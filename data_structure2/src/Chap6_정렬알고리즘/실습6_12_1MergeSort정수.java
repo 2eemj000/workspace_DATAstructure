@@ -5,7 +5,7 @@ public class 실습6_12_1MergeSort정수 {
 	// --- 배열 요소 a[idx1]와 a[idx2]의 값을 교환 ---//
 	static void merge(int[] a, int lefta, int righta, int leftb, int rightb ) {
 		 //body를 지우고 작성 훈련 연습이 도움이 된다 
-		int temp[] = new int[30];
+		int temp[] = new int[30]; //새로운 빈 배열을 만듦(똑같은 크기)
 		int ix = 0;
 		int p = lefta, q = leftb;
 		while (p <= righta && q <= rightb) {
