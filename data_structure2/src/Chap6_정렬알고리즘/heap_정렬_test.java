@@ -10,9 +10,9 @@ interface MaxHeap {
 
 class Heap implements MaxHeap {
 	final int heapSize = 100;
-	private int[] heap;
+	private int[] heap; 
 	private int n; // MaxHeap의 현재 입력된 element 개수
-	private int MaxSize; // Maximum allowable size of MaxHeap
+	private int MaxSize; // heap의 최대 크기를 제한
 
 	public Heap(int sz) {
 		MaxSize = sz;
@@ -36,21 +36,21 @@ class Heap implements MaxHeap {
 		}
 		n++;
 		 for (i = n; i > 1 && x > heap[i / 2]; i /= 2) // 새로운 요소를 힙의 마지막에 추가함, x가 자신의 부모보다 큰 값일 때까지 반복
-	            heap[i] = heap[i / 2];
+	            heap[i] = heap[i / 2]; // x를 힙의 마지막에 추가하고, 부모 노드와 비교하여 크기 순서대로 위치를 조정 (더 큰 자식노드로 이동)
 	        heap[i] = x;
 	}
 	@Override
-	public int DeleteMax() {//heap에서 가장 큰 값을 삭제하여 리턴한다. 
+	public int DeleteMax() { //heap에서 가장 큰 값을 삭제하여 리턴한다. 
 		int x;
 		int i, j;
 		if (n == 0) {
 			HeapEmpty();
-			int elm = 0;
+			int elm = 0; // 힙의 조건을 유지하기 위해 마지막 노드를 루트로 옮김
 			return elm;
 		}
 		x = heap[1];
         int temp = heap[n--];
-        for (i = 1, j = 2; j <= n) {
+        for (i = 1, j = 2; j <= n;) {
             if (j < n && heap[j] < heap[j + 1])
                 j++;
             if (temp >= heap[j])
