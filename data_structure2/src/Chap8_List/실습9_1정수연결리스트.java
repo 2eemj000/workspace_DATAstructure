@@ -4,9 +4,9 @@ package Chap8_List;
 import java.util.Random;
 import java.util.Scanner;
 
-class Node1 {
-	int data;
-	Node1 link;
+class Node1 { // 각 노드를 표현하는 클래스
+	int data; // 정수데이터 저장
+	Node1 link; // 다음노드를 가리키는 포인터
 
 	public Node1(int element) {
 		data = element;
@@ -14,18 +14,17 @@ class Node1 {
 	}
 }
 
-class LinkedList1 {
-	Node1 first;
+class LinkedList1 { // 연결리스트를 관리하는 클래스
+	Node1 first; // 첫번째 노드를 가리키는 참조변수
 
 	public LinkedList1() {
 		first = null;
 	}
 
-	public boolean Delete(int element) //전달된 element 값이 존재 하면 삭제하고 true로 리턴
-	{
-		Node1 q, current = first;
-		q = current;
-	
+	public boolean Delete(int element) { //전달된 element 값이 존재하면 삭제하고 true로 리턴, 존재하지 않으면 false를 반환
+		Node1 p = first;
+		Node1 q = null; // 이전 노드
+		// 삭제할 노드 찾기
 	}
 
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
@@ -34,52 +33,45 @@ class LinkedList1 {
 
 	}
 
-	public void Add(int element) // 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
-	{
-		Node1 newNode = new Node1(element);
-		if (first == null) // insert into empty list
-		{
+	public void Add(int element) { // 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
+		Node1 newNode = new Node1(element); // data, link를 가지는 객체
+		// 리스트가 비어있으면 새 노드를 첫번째 노드로 설정
+		if (first == null){
 			first = newNode;
 			return;
 		}
-		Node1 p = first, q = null; // p라는 변수를 도입해서 각 노드를 따라간다.
-		while (p!=null) {
-			if (element > p.data) {
-				q= p; // q가 p를 따라다닌다.
-				p = p.link;
-			} else {
-				if (q==null) {	// 1번 처리
-					newNode.link = p;
-					first = newNode;
-					return;
-				}
-				q.link = newNode; // 2번 경우
-				newNode.link = p;
-				return;
+		// 리스트가 정렬되도록 위치를 찾아서 삽입
+		Node1 p = first;
+		Node1 q = null; // 새로운 노드인 element를 삽입할 때 필요한 이전 노드(previous node)
+		
+		while(p != null) { // p는 element랑 비교할 기존데이터
+			if (p.data<element) {
+				q = p;
+				p=p.link;
 			}
-		}
-		if (q != null) {
-			q.link = newNode;
+			newNode.link = p;
+			if (q==null) {
+				first=newNode;
+			} else {
+				q.link = newNode;
+			}
 		}
 	}
 
 	public boolean Search(int data) { // 전달된 data 값을 찾아 존재하면 true로 리턴, 없으면 false로 리턴
 		Node1 ptr = first;
-		while (ptr != null) {
-			if (data == ptr.data){
-				return true;
-			}
-			ptr = ptr.link;
-		}
+		
 		return false;
 	}
-	void Merge(LinkedList1 b) {
+	
+	void Merge(LinkedList1 b) { // 두 개의 연결 리스트를 합병
 		/*
 		 * 연결리스트 a,b에 대하여 a = a + b
 		 * merge하는 알고리즘 구현으로 in-place 방식으로 합병/이것은 새로운 노드를 만들지 않고 합병하는 알고리즘 구현
 		 * 난이도 등급: 최상
 		 * a = (3, 5, 7), b = (2,4,8,9)이면 a = (2,3,4,5,8,9)가 되도록 구현하는 코드
 		 */
+		
 	}
 }
 
@@ -90,9 +82,8 @@ public class 실습9_1정수연결리스트 {
 		private final String message; // 표시할 문자열
 
 		static Menu MenuAt(int idx) { // 순서가 idx번째인 열거를 반환
-			for (Menu m : Menu.values()) // 확장형 for문, Menu는 enum 클래스, values는 enum 내장 method
-										 // values안에 Add, Delete, Show, Search, Merge, Exit
-				if (m.ordinal() == idx)  // m은 변수, Add는 0, Delete는 1, Show는 2...
+			for (Menu m : Menu.values())
+				if (m.ordinal() == idx)
 					return m;
 			return null;
 		}
@@ -110,7 +101,7 @@ public class 실습9_1정수연결리스트 {
 	}
 
 	// --- 메뉴 선택 ---//
-	static Menu SelectMenu() { // 리턴값이 Menu인 함수
+	static Menu SelectMenu() {
 		Scanner sc = new Scanner(System.in);
 		int key;
 		do {
@@ -131,15 +122,16 @@ public class 실습9_1정수연결리스트 {
 		Random rand = new Random();
 		LinkedList1 l = new LinkedList1();
 		Scanner sc = new Scanner(System.in);
-		int count = 0; //난수 생성 갯수
+		System.out.println("추가할 난수 숫자 개수::");
+		int count = sc.nextInt(); //난수 생성 갯수
+
 		int data = 0;
 		do {
 			switch (menu = SelectMenu()) {//Menu 생성자 호출 - menu 객체를 리턴한다 
 			case Add: // 난수를 삽입하는데 올림차순으로 정렬되도록 구현
 				for (int i =0; i < count; i++) {
 					data = rand.nextInt(20);
-					l.Add(data); 
-					
+					l.Add(data);
 				}
 				break;
 			case Delete:
@@ -165,7 +157,13 @@ public class 실습9_1정수연결리스트 {
 					data = rand.nextInt(20);
 					l2.Add(data);
 				}
+				System.out.println("리스트 l::");
+				l.Show();
+				System.out.println("리스트 l2::");
+				l2.Show();
 				l.Merge(l2);//merge 실행후 show로 결과 확인 - 새로운 노드를 만들지 않고 합병 - 난이도 상
+				System.out.println("병합 리스트 l::");
+				l.Show();
 				break;
 			case Exit: // 꼬리 노드 삭제
 				break;

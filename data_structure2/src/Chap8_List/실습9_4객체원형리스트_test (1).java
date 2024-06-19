@@ -112,7 +112,7 @@ class CircularList {
 
 		return false;
 	}
-	void Merge(LinkedList1 b) {
+	void Merge(CircularList2 b, Comparator<SimpleObject3> cc) {
 		/*
 		 * 연결리스트 a,b에 대하여 a = a + b
 		 * merge하는 알고리즘 구현으로 in-place 방식으로 합병/이것은 새로운 노드를 만들지 않고 합병하는 알고리즘 구현
@@ -199,7 +199,14 @@ public class 실습9_4객체원형리스트 {
 					data.scanData("병합", 3);
 					l2.Add(data, SimpleObject5.NO_ORDER );				
 				}
-				l.Merge(l2);
+				System.out.println("리스트 l::");
+				l.Show();
+				System.out.println("리스트 l2::");
+				l2.Show();
+				l.Merge(l2, SimpleObject5.NO_ORDER);
+				//merge 실행후 show로 결과 확인 - 새로운 노드를 만들지 않고 합병 - 난이도 상
+				System.out.println("병합 리스트 l::");
+				l.Show();
 			case Exit: // 꼬리 노드 삭제
 				break;
 			}

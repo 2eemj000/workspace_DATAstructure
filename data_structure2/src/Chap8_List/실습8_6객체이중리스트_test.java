@@ -8,14 +8,14 @@ package Chap8_List;
 import java.util.Comparator;
 import java.util.Scanner;
 
-class SimpleObject2 {
+class SimpleObject2 { // 리스트의 각 노드가 가지는 데이터클래스
 	static final int NO = 1; // 번호를 읽어 들일까요?
 	static final int NAME = 2; // 이름을 읽어 들일까요?
 	String no; // 회원번호
 	String name; // 이름
 	String expire;//  유효기간 필드를 추가
 
-	public SimpleObject2(String sno, String sname) {
+	public SimpleObject2(String sno, String sname) { 
 		this.no = sno;
 		this.name = sname;
 	}
@@ -63,7 +63,7 @@ class SimpleObject2 {
 	}
 }
 
-class Node4 {
+class Node4 { // 이중 원형 연결 리스트의 노드를 표현하는 클래스
 	SimpleObject2 data; // 데이터
 	Node4 llink; // 좌측포인터(앞쪽 노드에 대한 참조)
 	Node4 rlink; // 우측포인터(뒤쪽 노드에 대한 참조)
@@ -89,7 +89,7 @@ class Node4 {
 	}
 }
 
-class DoubledLinkedList2 {
+class DoubledLinkedList2 { // 이중 원형 연결 리스트 자체를 관리하는 클래스
 	private Node4 first; // 머리 포인터(참조하는 곳은 더미노드)
 
 	// --- 생성자(constructor) ---//
@@ -127,7 +127,7 @@ class DoubledLinkedList2 {
 	public void delete(SimpleObject2 obj, Comparator<? super SimpleObject2> c) {
 	
 	}
-	public DoubledLinkedList2 merge(DoubledLinkedList2 lst2) {
+	public DoubledLinkedList2 merge_NewList(DoubledLinkedList2 lst2, SimpleObject3.NO_ORDER) {
 		//l3 = l1.merge(l2); 실행하도록 리턴 값이 리스트임 
 		//l.add(객체)를 사용하여 구현
 		//기존 리스트의 노드를 변경하지 않고 새로운 리스트의 노드들을 생성하여 구현 
@@ -138,11 +138,18 @@ class DoubledLinkedList2 {
 		return lst3;
 
 	}
+	void merge_InPlace(CircularList2 b, Comparator<SimpleObject3> cc) {
+		/*
+		 * 연결리스트 a,b에 대하여 a = a + b
+		 * merge하는 알고리즘 구현으로 in-place 방식으로 합병/이것은 새로운 노드를 만들지 않고 합병하는 알고리즘 구현
+		 * 난이도 등급: 최상급
+		 * 회원번호에 대하여 a = (3, 5, 7), b = (2,4,8,9)이면 a = (2,3,4,5,8,9)가 되도록 구현하는 코드
+		 */
 }
 
-public class 실습9_6객체이중리스트 {
+public class 실습9_6_객체이중리스트 {
 	enum Menu {
-		Add("삽입"), Delete("삭제"), Show("인쇄"), Search("검색"), Merge("병합"), Exit("종료");
+		Add("삽입"), Delete("삭제"), Show("인쇄"), Search("검색"), Merge_NewList("병합-새리스트"), Merge_InPlace("병합-제자리"), Exit("종료");
 
 		private final String message; // 표시할 문자열
 
@@ -210,20 +217,35 @@ public class 실습9_6객체이중리스트 {
 				else
 					System.out.println("검색 값 = " + so + "데이터가 존재합니다.");
 				break;
-			case Merge://기존 2개의 리스트를 합병하여 새로운 리스트를 생성(새로운 노드를 생성하여 추가)
-				for (int i = 0; i < count; i++) {
-					so =  new SimpleObject2();
-					so.scanData("입력", 3);
-					lst2.add(so, SimpleObject2.NO_ORDER);
+			case Merge_NewList://기존 2개의 리스트를 합병하여 새로운 리스트를 생성(새로운 노드를 생성하여 추가)
+				for (int i = 0; i < count; i++) {//3개의 객체를 연속으로 입력받아 l2 객체를 만든다 
+					data = new SimpleObject3();
+					data.scanData("병합", 3);
+					lst1.Add(data, SimpleObject3.NO_ORDER );				
 				}
-				lst3 = lst1.merge(lst2);
-				System.out.println("list1: ");
-				lst1.show();
-				System.out.println("list2: ");
-				lst2.show();
-				System.out.println("list3: ");
-				lst3.show();
+				System.out.println("리스트 lst1::");
+				lst1.Show();
+				System.out.println("리스트 lst2::");
+				lst2.Show();
+				lst3= lst1.merge_NewList(lst2, SimpleObject3.NO_ORDER);
+				//merge 실행후 show로 결과 확인 - 새로운 노드를 만들지 않고 합병 - 난이도 상
+				System.out.println("병합 리스트 lst3::");
+				lst3.Show();	
 				break;
+			case Merge_InPlace:
+				for (int i = 0; i < count; i++) {//3개의 객체를 연속으로 입력받아 l2 객체를 만든다 
+					data = new SimpleObject3();
+					data.scanData("병합", 3);
+					lst2.Add(data, SimpleObject3.NO_ORDER );				
+				}
+				System.out.println("리스트 l::");
+				lst1.Show();
+				System.out.println("리스트 l2::");
+				lst2.Show();
+				lst1.merge_NewList(lst2, SimpleObject3.NO_ORDER);
+				//merge 실행후 show로 결과 확인 - 새로운 노드를 만들지 않고 합병 - 난이도 상
+				System.out.println("병합 리스트 lst1::");
+				lst1.Show();	
 			case Exit: // 
 				break;
 			}
