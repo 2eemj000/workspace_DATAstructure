@@ -13,7 +13,7 @@ class Node1 { // 각 노드를 표현하는 클래스
 		link = null;
 	}
 }
-
+ 
 class LinkedList1 { // 연결리스트를 관리하는 클래스
 	Node1 first; // 첫번째 노드를 가리키는 참조변수
 
@@ -25,12 +25,30 @@ class LinkedList1 { // 연결리스트를 관리하는 클래스
 		Node1 p = first;
 		Node1 q = null; // 이전 노드
 		// 삭제할 노드 찾기
+		while (p != null) {
+			if (p.data != element) {
+			q = p;
+            p = p.link;
+			}
+			if (p == null) {
+			return false; // 삭제할 노드 없음
+			}
+			if (q == null) { // 삭제할 노드가 첫번째노드인 경우
+				first = p.link;
+			} else {
+				q.link = p.link;
+				}
+			}
+		return true; // 삭제 성공
 	}
-
+		
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
 		Node1 p = first;
-		int num = 0;
-
+		while (p != null) {
+			System.out.print(p.data+" ");
+			p = p.link;
+		}
+		System.out.println();
 	}
 
 	public void Add(int element) { // 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
@@ -49,21 +67,32 @@ class LinkedList1 { // 연결리스트를 관리하는 클래스
 				q = p;
 				p=p.link;
 			}
-			newNode.link = p;
-			if (q==null) {
-				first=newNode;
-			} else {
-				q.link = newNode;
+			else {
+				if (q == null) {
+					first=newNode;
+				}
+				else
+					q.link = newNode;
+				newNode.link = p;
+				return;
 			}
+
 		}
+		q.link = newNode;
 	}
 
 	public boolean Search(int data) { // 전달된 data 값을 찾아 존재하면 true로 리턴, 없으면 false로 리턴
 		Node1 ptr = first;
 		
-		return false;
-	}
-	
+		 while (ptr != null) {
+	            if (ptr.data == data) {
+	                return true;
+	            }
+	            ptr = ptr.link;
+	        }
+	        return false;
+	    }
+
 	void Merge(LinkedList1 b) { // 두 개의 연결 리스트를 합병
 		/*
 		 * 연결리스트 a,b에 대하여 a = a + b
@@ -71,6 +100,31 @@ class LinkedList1 { // 연결리스트를 관리하는 클래스
 		 * 난이도 등급: 최상
 		 * a = (3, 5, 7), b = (2,4,8,9)이면 a = (2,3,4,5,8,9)가 되도록 구현하는 코드
 		 */
+		Node1 pa = first; // 현재 리스트의 첫번째노드를 가리킴
+		Node1 pb = b.first; // 합병할 리스트 b의 첫번째노드를 가리킴
+		Node1 prev = null; // 합병할 때 이전 노드를 기록하는 변수
+		
+		// 합병할 리스트 b가 비어있을 때까지 반복
+		while (pb != null) {
+			// 현재 리스트 a가 비어있거나, b의 첫번째노드가 a의 첫번째노드보다 작을때는
+			// b의 첫번쨰노드를 현재리스트 a의 첫번째로 삽입
+			while (pa != null && pa.data<pb.data) {
+				prev = pa;
+				pa = pa.link;
+			}
+			// b의 첫번째노드를 현재 위치에 삽입
+			Node1 nextB = pb.link; // nextB에 다음 합병할 b노드를 저장
+			pb.link = pa; // b의 첫번째노드를 현재 위치에 삽입
+			if (prev == null) {
+				this.first = pb; // 만약 처음 위치에 삽입되면 first를 업데이트
+			} else {
+				prev.link = pb; // 이전 노드가 있으면 그 노드의 link를 pb로 연결
+			}
+			prev = pb; // prev를 현재 bPtr로 업데이트
+			pb = nextB; // 다음 합병할 b의 노드로 이동
+			// nextB는 합병 과정에서 리스트 b의 현재 노드를 가리키는 포인터
+		}
+		
 		
 	}
 }

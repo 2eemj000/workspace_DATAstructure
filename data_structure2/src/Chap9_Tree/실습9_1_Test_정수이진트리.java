@@ -248,8 +248,8 @@ class Tree5 {
 			return false;
 	}
 
-	void inorder() {
-		inorder(root);
+	void inorder() { // driver function (여기서 inorder함수랑
+		inorder(root); // 여기 inorder함수는 다른 함수 (overloading))
 	}
 
 	void preorder() {
@@ -260,11 +260,11 @@ class Tree5 {
 		postorder(root);
 	}
 
-	void inorder(TreeNode5 CurrentNode) {
-		if (CurrentNode != null) {
-			inorder(CurrentNode.LeftChild);
-			System.out.print(" " + CurrentNode.data);
-			inorder(CurrentNode.RightChild);
+	void inorder(TreeNode5 CurrentNode) { // workhorse 함수
+		if (CurrentNode != null) { // recursive
+			inorder(CurrentNode.LeftChild); // L : leftchild
+			System.out.print(" " + CurrentNode.data); // V : visit
+			inorder(CurrentNode.RightChild); // R : rightchild
 		}
 	}
 
@@ -291,8 +291,8 @@ class Tree5 {
 		TreeNode5 CurrentNode = root;
 		while (true) {
 			while (CurrentNode != null) {
-				s.push(CurrentNode);
-				CurrentNode = CurrentNode.LeftChild;
+				s.push(CurrentNode); // stack에 넣음
+				CurrentNode = CurrentNode.LeftChild; // 왼쪽을 타고 내려감
 			}
 			if (!s.isEmpty()) {
 				try {
@@ -302,7 +302,7 @@ class Tree5 {
 					e.printStackTrace();
 				}
 				System.out.println(" " + CurrentNode.data);
-				CurrentNode = CurrentNode.RightChild;
+				CurrentNode = CurrentNode.RightChild; // 자기자신을 부르는게 아니라, while루프를 돌림
 			}
 			else break;  
 		}
@@ -321,14 +321,32 @@ class Tree5 {
 
 	boolean insert(int x) {// binary search tree를 만드는 입력 : left subtree < 노드 x < right subtree
 		//inorder traversal시에 정렬된 결과가 나와야 한다
-		TreeNode5 p = root;
-		TreeNode5 q = null;
 		
+		TreeNode5 newNode = new TreeNode5(x); 
+		TreeNode5 p = root; // p는 현재노드를 나타내는 변수
+		TreeNode5 q = null; // q는 p의 부모노드를 나타내는 변수
+		//p가 null이면 새로 만들어서,,,		
+		if (p==null) {
+			root = newNode;
+		}
+		while (p!=null) {
+			if (x<p.data) {
+				tag = true; // 왼쪽으로 가는 걸 true
+				p=p.LeftChild;
+			} else {
+				tag = false; // 오른쪽으로 가는 걸 false
+				p=p.RightChild;
+			}
+		}
+		if (tag == true) {
+			q.LeftChild = newNode;
+		}
 		return true;
 	}
 
 	boolean delete(int num) {//binary search tree에서 임의 값을 갖는 노드를 찾아 삭제한다.
-		//삭제 대상이 leaf node인 경우, non-leaf node로 구분하여 구현한다 
+		// 삭제 대상이 leaf node인 경우
+		// non-leaf node로 구분하여 구현 (child가 left하나인 경우, right하나인 경우, 둘인 경우)
 		TreeNode5 p = root, q = null, parent = null;
 		int branchMode = 0; // 1은 left, 2는 right
 		if (root == null)
@@ -385,7 +403,7 @@ public class 정수이진트리 {
 	public static void main(String[] args) {
 		Random rand = new Random();
 		Scanner stdIn = new Scanner(System.in);
-		Tree5 t = new Tree5();
+		Tree5 t = new Tree5(); // t는 참조변수
 		Menu menu; // 메뉴
 		int count = 20;
 		int num;

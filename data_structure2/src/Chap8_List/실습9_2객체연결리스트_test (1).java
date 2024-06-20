@@ -19,7 +19,7 @@ class SimpleObject5 {
 		return "(" + no + ") " + name;
 	}
 	public SimpleObject5() {
-		no = null;name = null;
+		no = null; name = null;
 	}
 	// --- 데이터를 읽어 들임 ---//
 	void scanData(String guide, int sw) {//sw가 3이면 11 비트 연산 >  NO, NAME을 모두 입력받는다 
