@@ -1,9 +1,10 @@
+// 교재 398페이지보고 채우기
 package Chap10_Hashing;
 
 import java.util.Scanner;
 //체인법에 의한 해시
 //--- 해시를 구성하는 노드 ---//
-/*
+
 class Node {
     int key;                 // 키값
     Node next;        // 뒤쪽 포인터(뒤쪽 노드에 대한 참조)
@@ -14,16 +15,24 @@ class SimpleChainHash {
  private int    size;              // 해시 테이블의 크기
  private Node[] table;        // 해시 테이블
 
- 
-
+ public int hashValue(int key) {
+		return (key*key*31)%size; // 최대한 home address가 다양하게 분포되게 함 (randomizing) -> 성능저하되지않게
+	}
+	 
  //--- 키값이 key인 요소를 검색(데이터를 반환) ---//
  public int search(int key) {
-
+	 int hash = 
  }
 
  //--- 키값이 key인 데이터를 data의 요소로 추가 ---//
  public int add(int key) {
-
+	 int hash = hashValue(key);
+	 Node p = table[hash]; // 6이면 결과값에 해당하는 노드를 가리키는 참조변수
+	 while (p!=null) {
+		 if (p.getkey().equals(key))
+			 return 1;
+		 p = p.next;
+	 }
  }
 
  //--- 키값이 key인 요소를 삭제 ---//
@@ -36,7 +45,7 @@ class SimpleChainHash {
 
  }
 }
-*/
+
 public class Test_실습10_1정수체인해시 {
 
 	enum Menu {

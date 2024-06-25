@@ -1,3 +1,4 @@
+// 교재 412페이지보고 채우기
 package Chap10_Hashing;
 
 //오픈 주소법에 의한 해시의 사용 예
@@ -5,7 +6,7 @@ package Chap10_Hashing;
 import java.util.Scanner;
 
 //오픈 주소법에 의한 해시
-/*
+
 class OpenHash2 {
 
 //--- 버킷의 상태 ---//
@@ -15,8 +16,9 @@ enum Status {OCCUPIED, EMPTY, DELETED}    // {데이터 저장, 비어있음, �
 static class Bucket {
     private int data;                   // 데이터
     private Status stat;              // 상태
-
-   
+    Bucket(){
+    	stat = Status.EMPTY;
+    }
 }
 
 private int size;                                // 해시 테이블의 크기
@@ -24,7 +26,8 @@ private Bucket[] table;        // 해시 테이블
 
 //--- 생성자(constructor) ---//
 public OpenHash2(int size) {
-    
+    table = new Bucket[size];
+    for 
 }
 
 //--- 해시값을 구함 ---//
@@ -62,7 +65,7 @@ public void dump() {
     
 }
 }
-*/
+
 public class 실습10_3정수오픈해시 {
 //--- 메뉴 열거형 ---//
 enum Menu {
