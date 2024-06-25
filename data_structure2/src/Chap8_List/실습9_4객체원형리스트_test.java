@@ -66,7 +66,6 @@ class SimpleObject3 {
 class Node3 {
 	SimpleObject3 data;
 	Node3 link;
-
 	public Node3(SimpleObject3 element) {
 		data = element;
 		link = null;
@@ -77,9 +76,9 @@ class CircularList {
 	Node3 first;
 
 	public CircularList() { //head node
-		SimpleObject3 data = new SimpleObject3();
-		first = new Node3(data);
-		first.link = first;
+//		SimpleObject3 data = new SimpleObject3();
+		first = new Node3(null); // 헤드 노드 생성 및 자기 자신을 가리키도록 설정
+		first.link = first; // first가 첫번째노드이자 마지막노드, 원형이니까 마지막노드가 첫번째노드를 가리킴
 	}
 
 	/*
@@ -102,7 +101,7 @@ class CircularList {
 	}
 
 	public void Add(SimpleObject3 element, Comparator<SimpleObject3> cc) // 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
-	{
+	{	
 		Node3 newNode = new Node3(element);
 	
 	}

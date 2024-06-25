@@ -19,12 +19,12 @@ class SimpleObject5 {
 		return "(" + no + ") " + name;
 	}
 	public SimpleObject5() {
-		no = null; name = null;
+		no = null;name = null;
 	}
 	// --- 데이터를 읽어 들임 ---//
 	void scanData(String guide, int sw) {//sw가 3이면 11 비트 연산 >  NO, NAME을 모두 입력받는다 
 		Scanner sc = new Scanner(System.in);
-		System.out.println(guide + "할 데이터를 입력하세요."+ sw);
+		System.out.println(guide + "할 데이터를 입력하세요.");
 
 		if ((sw & NO) == NO) { //& 는 bit 연산자임 sw가 3이면 &는 비트 연산이므로 결과는 1
 			System.out.print("번호: ");
@@ -70,17 +70,33 @@ class LinkedList2 {
 	}
 
 	public int Delete(SimpleObject5 element, Comparator<SimpleObject5> cc)
-	//전달된 element를 찾을 때 comparator 객체를 사용한다 
-	{
-		Node2 q, current = first;
-		q = current;
-
-		return -1;// 삭제할 대상이 없다.
+	//전달된 element를 찾을 때 comparator 객체를 사용한다
+	{	Node2 current = first;
+		Node2 q = null; // current는 리스트순회를 위한 현재노드
+		while (current != null) {
+			if (cc.compare(element, current.data)>0) {
+				q=current;
+				current = current.link;
+			} else if (cc.compare(current.data, element)==0) {
+				if (q == null) {
+					first = current.link;
+				} else 
+					q.link = current.link;
+				return 1; // 삭제성공
+			} else {
+				break;
+			}
+		} 
+		return -1;
 	}
+		
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
 		Node2 p = first;
-		SimpleObject5 so;
-
+		while (p != null) {
+			System.out.print(p.data+" ");
+			p = p.link;
+		}
+		System.out.println();
 	}
 	public void Add(SimpleObject5 element, Comparator<SimpleObject5> cc) 
 	//임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
@@ -91,13 +107,31 @@ class LinkedList2 {
 			first = newNode;
 			return;
 		}
-
+		// 리스트가 정렬되도록 위치를 찾아서 삽입
+		Node2 p = first;
+		Node2 q = null;
+		
+		while(p != null) {
+			if (cc.compare(p.data, element)<0) {
+				q = p;
+				p = p.link;
+			} else {
+				q.link = newNode;
+				newNode.link = p;
+				return;
+			}
+		}
+		q.link = newNode;
 	}
 	public boolean Search(SimpleObject5 element, Comparator<SimpleObject5> cc) { 
 		// 전체 리스트를 올림차순 순서대로 출력한다.
-		Node2 q, current = first;
-		q = current;
-
+		Node2 current = first;
+		while (current != null) {
+			if (cc.compare(current.data, element)==0) {
+				return true; // 데이터가 일치하는 경우 true 반환
+			}
+			current = current.link;
+		}
 		return false;
 	}
 	void Merge(LinkedList2 b, Comparator<SimpleObject5> cc) {
@@ -107,9 +141,28 @@ class LinkedList2 {
 		 * 난이도 등급: 최상급
 		 * 회원번호에 대하여 a = (3, 5, 7), b = (2,4,8,9)이면 a = (2,3,4,5,8,9)가 되도록 구현하는 코드
 		 */
+		Node2 pa = first;
+		Node2 pb = b.first;
+		Node2 prev = null;
+		
+		while (pb != null) {
+			while (pa != null && cc.compare(pa.data, pb.data)<0) {
+				prev = pa;
+				pa = pa.link;
+			}
+			Node2 nextB = pb.link;
+			pb.link = pa;
+			if (prev == null) {
+				this.first = pb;
+			} else {
+				prev.link = pb;
+			}
+			prev = pb;
+			pb = nextB;
+		}
 	}
 }
-public class 실습9_2객체연결리스트 {
+public class 실습9_2객체연결리스트_test {
 
 	enum Menu {
 		Add( "삽입"), Delete( "삭제"), Show( "인쇄"), Search( "검색"), Merge("합병"), Exit( "종료");
@@ -160,9 +213,23 @@ public class 실습9_2객체연결리스트 {
 			switch (menu = SelectMenu()) {
 			case Add :                          
 				data = new SimpleObject5();
-				data.scanData("입력", 3);
-				l.Add(data, SimpleObject5.NO_ORDER);//회원번호 순서로 정렬 입력
-				break;
+			    int addMenuChoice;
+			    do {
+			        System.out.println("무엇을 추가하시겠습니까?");
+			        System.out.println("1. 번호");
+			        System.out.println("2. 이름");
+			        System.out.print("선택: ");
+			        addMenuChoice = sc.nextInt();
+			    } while (addMenuChoice < 1 || addMenuChoice > 2);
+
+			    if (addMenuChoice == 1) {
+			        data.scanData("입력", SimpleObject5.NO); // 번호 입력
+			    } else if (addMenuChoice == 2) {
+			        data.scanData("입력", SimpleObject5.NAME); // 이름 입력
+			    }
+
+			    l.Add(data, SimpleObject5.NO_ORDER); // LinkedList2 객체에 번호로 정렬된 순서로 데이터를 추가합니다.
+			    break;
 			case Delete :                         
 				data = new SimpleObject5();
 				data.scanData("삭제", SimpleObject5.NO);

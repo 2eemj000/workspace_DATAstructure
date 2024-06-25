@@ -13,7 +13,7 @@ class Node1 { // 각 노드를 표현하는 클래스
 		link = null;
 	}
 }
- 
+
 class LinkedList1 { // 연결리스트를 관리하는 클래스
 	Node1 first; // 첫번째 노드를 가리키는 참조변수
 
@@ -21,27 +21,27 @@ class LinkedList1 { // 연결리스트를 관리하는 클래스
 		first = null;
 	}
 
-	public boolean Delete(int element) { //전달된 element 값이 존재하면 삭제하고 true로 리턴, 존재하지 않으면 false를 반환
+	public boolean Delete(int element) { // 전달된 element 값이 존재하면 삭제하고 true로 리턴, 존재하지 않으면 false를 반환
 		Node1 p = first;
 		Node1 q = null; // 이전 노드
 		// 삭제할 노드 찾기
 		while (p != null) {
-			if (p.data != element) {
-			q = p;
-            p = p.link;
-			}
-			if (p == null) {
-			return false; // 삭제할 노드 없음
-			}
-			if (q == null) { // 삭제할 노드가 첫번째노드인 경우
-				first = p.link;
+			if (element > p.data) {
+				q = p;
+				p = p.link;
+			} else if (p.data == element) {
+				if (q == null) {
+					first = p.link;
+				}else
+				 q.link = p.link;
+				return true; // 삭제 성공
 			} else {
-				q.link = p.link;
-				}
-			}
-		return true; // 삭제 성공
+	            break; // element보다 큰 데이터가 나왔으므로 반복 종료
+	        }
+	    }
+	    return false; // 삭제할 데이터가 없음
 	}
-		
+
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
 		Node1 p = first;
 		while (p != null) {
@@ -61,7 +61,7 @@ class LinkedList1 { // 연결리스트를 관리하는 클래스
 		// 리스트가 정렬되도록 위치를 찾아서 삽입
 		Node1 p = first;
 		Node1 q = null; // 새로운 노드인 element를 삽입할 때 필요한 이전 노드(previous node)
-		
+
 		while(p != null) { // p는 element랑 비교할 기존데이터
 			if (p.data<element) {
 				q = p;
@@ -83,15 +83,15 @@ class LinkedList1 { // 연결리스트를 관리하는 클래스
 
 	public boolean Search(int data) { // 전달된 data 값을 찾아 존재하면 true로 리턴, 없으면 false로 리턴
 		Node1 ptr = first;
-		
-		 while (ptr != null) {
-	            if (ptr.data == data) {
-	                return true;
-	            }
-	            ptr = ptr.link;
-	        }
-	        return false;
-	    }
+
+		while (ptr != null) {
+			if (ptr.data == data) {
+				return true;
+			}
+			ptr = ptr.link;
+		}
+		return false;
+	}
 
 	void Merge(LinkedList1 b) { // 두 개의 연결 리스트를 합병
 		/*
@@ -103,7 +103,7 @@ class LinkedList1 { // 연결리스트를 관리하는 클래스
 		Node1 pa = first; // 현재 리스트의 첫번째노드를 가리킴
 		Node1 pb = b.first; // 합병할 리스트 b의 첫번째노드를 가리킴
 		Node1 prev = null; // 합병할 때 이전 노드를 기록하는 변수
-		
+
 		// 합병할 리스트 b가 비어있을 때까지 반복
 		while (pb != null) {
 			// 현재 리스트 a가 비어있거나, b의 첫번째노드가 a의 첫번째노드보다 작을때는
@@ -124,8 +124,6 @@ class LinkedList1 { // 연결리스트를 관리하는 클래스
 			pb = nextB; // 다음 합병할 b의 노드로 이동
 			// nextB는 합병 과정에서 리스트 b의 현재 노드를 가리키는 포인터
 		}
-		
-		
 	}
 }
 
