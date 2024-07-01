@@ -21,20 +21,25 @@ class SimpleObject5 {
 	public SimpleObject5() {
 		no = null;name = null;
 	}
+	
 	// --- 데이터를 읽어 들임 ---//
-	void scanData(String guide, int sw) {//sw가 3이면 11 비트 연산 >  NO, NAME을 모두 입력받는다 
-		Scanner sc = new Scanner(System.in);
-		System.out.println(guide + "할 데이터를 입력하세요.");
+	 void scanData(String guide, int sw) {
+	        Scanner sc = new Scanner(System.in);
+	        System.out.println(guide + "할 데이터를 입력하세요.");
 
-		if ((sw & NO) == NO) { //& 는 bit 연산자임 sw가 3이면 &는 비트 연산이므로 결과는 1
-			System.out.print("번호: ");
-			no = sc.next();
-		}
-		if ((sw & NAME) == NAME) {//sw가 3이고 NAME과 비트 & 연산하면 결과는 2
-			System.out.print("이름: ");
-			name = sc.next();
-		}
-	}
+	        if ((sw & NO) == NO) {
+	            System.out.print("번호: ");
+	            if (sc.hasNext()) {
+	                no = sc.next(); // 번호 입력 처리
+	            }
+	        }
+	        if ((sw & NAME) == NAME) {
+	            System.out.print("이름: ");
+	            if (sc.hasNext()) {
+	                name = sc.next(); // 이름 입력 처리
+	            }
+	        }
+	    }
 
 	// --- 회원번호로 순서를 매기는 comparator ---//
 	public static final Comparator<SimpleObject5> NO_ORDER = new NoOrderComparator();
@@ -54,6 +59,7 @@ class SimpleObject5 {
 		}
 	}
 }
+
 class Node2 {
 	SimpleObject5 data;
 	Node2 link;
@@ -98,6 +104,7 @@ class LinkedList2 {
 		}
 		System.out.println();
 	}
+	
 	public void Add(SimpleObject5 element, Comparator<SimpleObject5> cc) 
 	//임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 	{
@@ -115,14 +122,20 @@ class LinkedList2 {
 			if (cc.compare(p.data, element)<0) {
 				q = p;
 				p = p.link;
-			} else {
-				q.link = newNode;
+			} 
+			else {
+				if (q == null) {
+					first = newNode;
+				}
+				else 
+					q.link = newNode;
 				newNode.link = p;
 				return;
 			}
 		}
 		q.link = newNode;
 	}
+	
 	public boolean Search(SimpleObject5 element, Comparator<SimpleObject5> cc) { 
 		// 전체 리스트를 올림차순 순서대로 출력한다.
 		Node2 current = first;
@@ -134,6 +147,7 @@ class LinkedList2 {
 		}
 		return false;
 	}
+	
 	void Merge(LinkedList2 b, Comparator<SimpleObject5> cc) {
 		/*
 		 * 연결리스트 a,b에 대하여 a = a + b
@@ -162,6 +176,7 @@ class LinkedList2 {
 		}
 	}
 }
+
 public class 실습9_2객체연결리스트_test {
 
 	enum Menu {
@@ -208,41 +223,27 @@ public class 실습9_2객체연결리스트_test {
 		LinkedList2 l2 = new LinkedList2();
 		Scanner sc = new Scanner(System.in);
 		int count = 3; //3개의 객체 입력 개수
-		SimpleObject5 data;
 		do {
 			switch (menu = SelectMenu()) {
 			case Add :                          
-				data = new SimpleObject5();
-			    int addMenuChoice;
-			    do {
-			        System.out.println("무엇을 추가하시겠습니까?");
-			        System.out.println("1. 번호");
-			        System.out.println("2. 이름");
-			        System.out.print("선택: ");
-			        addMenuChoice = sc.nextInt();
-			    } while (addMenuChoice < 1 || addMenuChoice > 2);
-
-			    if (addMenuChoice == 1) {
-			        data.scanData("입력", SimpleObject5.NO); // 번호 입력
-			    } else if (addMenuChoice == 2) {
-			        data.scanData("입력", SimpleObject5.NAME); // 이름 입력
-			    }
+				SimpleObject5 data = new SimpleObject5();
+		        data.scanData("입력", 3); // 이름 입력
 
 			    l.Add(data, SimpleObject5.NO_ORDER); // LinkedList2 객체에 번호로 정렬된 순서로 데이터를 추가합니다.
 			    break;
 			case Delete :                         
-				data = new SimpleObject5();
-				data.scanData("삭제", SimpleObject5.NO);
-				int num = l.Delete(data, SimpleObject5.NO_ORDER);//회원번호 조건 비교하여 삭제 
+				SimpleObject5 dataDelete = new SimpleObject5();
+				dataDelete.scanData("삭제", SimpleObject5.NO);
+				int num = l.Delete(dataDelete, SimpleObject5.NO_ORDER);//회원번호 조건 비교하여 삭제 
 				System.out.println("삭제된 데이터 성공은 " + num);
 				break;
 			case Show :                           
 				l.Show();
 				break;
 			case Search : // 회원 번호 검색
-				data = new SimpleObject5();
-				data.scanData("탐색", SimpleObject5.NO);
-				boolean result = l.Search(data, SimpleObject5.NO_ORDER);//회원번호로 검색
+				SimpleObject5 dataSearch = new SimpleObject5();
+				dataSearch.scanData("탐색", SimpleObject5.NO);
+				boolean result = l.Search(dataSearch, SimpleObject5.NO_ORDER);//회원번호로 검색
 				if (result)
 					System.out.println("검색 성공 = " + result );
 				else
@@ -250,9 +251,9 @@ public class 실습9_2객체연결리스트_test {
 				break;
 			case Merge://난이도 상
 				for (int i = 0; i < count; i++) {//3개의 객체를 연속으로 입력받아 l2 객체를 만든다 
-					data = new SimpleObject5();
-					data.scanData("병합", 3);
-					l2.Add(data, SimpleObject5.NO_ORDER );				
+					SimpleObject5 mergeData = new SimpleObject5();
+					mergeData.scanData("병합", 3);
+					l2.Add(mergeData, SimpleObject5.NO_ORDER );				
 				}
 				System.out.println("리스트 l::");
 				l.Show();
@@ -267,6 +268,8 @@ public class 실습9_2객체연결리스트_test {
 				break;
 			}
 		} while (menu != Menu.Exit);
+		 // Scanner 객체 닫기
+        sc.close();
 	}
 }
 
