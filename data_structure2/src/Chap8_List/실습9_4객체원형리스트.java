@@ -79,7 +79,7 @@ class CircularList {
 	Node3 first;
 
 	public CircularList() { //head node
-		SimpleObject3 data = new SimpleObject3();
+		//SimpleObject3 data = new SimpleObject3();
 		first = new Node3(null); // 헤드 노드 생성 및 자기 자신을 가리키도록 설정
 		first.link = first; // first가 첫번째노드이자 마지막노드, 원형이니까 마지막노드가 첫번째노드를 가리킴
 	}
@@ -115,34 +115,35 @@ class CircularList {
             System.out.println(p.data.toString());
             p = p.link;
         }
-        System.out.println();
-    }
-
+	}
+	
 	public void Add(SimpleObject3 element, Comparator<SimpleObject3> cc) 
 	// 임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다
 	{	
 		Node3 newNode = new Node3(element);
-		Node3 p = first;
-        Node3 q = null;
-		if (first == null) {
-			first = newNode;
+
+		if (first.link == first) {
+			newNode.link = first;
+			first.link = newNode;
 			return;
 		}
-		
-		while (p.link != first) {
-            if (cc.compare(p.link.data, element) < 0) {
+		Node3 p = first.link;
+        Node3 q = first;
+		while (p != first) {
+            if (cc.compare(element, p.data) > 0) {
+            	
                 q = p;
                 p = p.link;
+                if (p == first) {
+                	newNode.link = p;
+                	q.link = newNode;
+                	return;
+                }
             } else {
-                break;
+                newNode.link = p;
+                q.link = newNode;
+                return;
             }
-        }
-
-        newNode.link = p;
-        if (q == null) {
-            first.link = newNode; // 첫 번째 위치에 삽입
-        } else {
-            q.link = newNode; // 중간에 삽입
         }
     }
 	
@@ -173,22 +174,24 @@ class CircularList {
 			if (cc.compare(pa.data, pb.data)<0) {
 				prev = pa;
 				pa = pa.link;
-				pa = prev;
 			}
-			else if (cc.compare(pa.data, pb.data) > 0) {
-				Node3 nextB = pb.link; // 다음 b의 노드를 임시로 저장
-	            pb.link = pa; // b의 노드를 a의 앞에 연결
-	            prev.link = pb; // 이전 노드와 b의 노드를 연결
+			else { // cc.compare(pa.data, pb.data) > 0
+				Node3 nextB = pb.link;
+				prev.link = pb; // 이전 노드의 링크를 pb로 설정
+	            pb.link = pa; // pb의 링크를 pa로 설정
 	            prev = pb; // prev를 pb로 업데이트
 	            pb = nextB; // 다음 b의 노드로 이동
 			}
-			else { // pa.data == pb.data 인 경우
-				prev = pa;
-	            pa = pa.link;
-	            pb = pb.link;
-			}
-
 		}
+		 // 남은 노드들을 처리
+	    while (pb != b.first) {
+	        prev.link = pb; // 이전 노드의 링크를 pb로 설정
+	        prev = pb; // prev를 pb로 업데이트
+	        pb = pb.link; // 다음 b의 노드로 이동
+	    }
+
+	    // 원형 리스트를 유지하기 위해 마지막 노드를 처음 노드에 연결
+	    prev.link = first;
 	}
 }
 
@@ -277,6 +280,7 @@ public class 실습9_4객체원형리스트 {
 				//merge 실행후 show로 결과 확인 - 새로운 노드를 만들지 않고 합병 - 난이도 상
 				System.out.println("병합 리스트 l::");
 				l.Show();
+				break;
 			case Exit: // 꼬리 노드 삭제
 				break;
 			}
